@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login | 24k_Ake Roblox Rewards</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            background-image: url('https://media.wired.com/photos/64fa35ee93a336d16731ae1e/3:2/w_1920,c_limit/Roblox-Gadget-Lab-Gear.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+        
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-size: 24px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+        
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+        
+        .nav-links li a:hover {
+            opacity: 1;
+        }
+        
+        .nav-user {
+            color: white;
+            font-size: 20px;
+        }
+        
+        /* Mobile menu toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 1000;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Main content */
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 80px);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .login-card {
+            background-color: rgba(15, 15, 25, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            max-width: 450px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .site-title {
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+            color: #FFC107;
+        }
+        
+        /* Form styles */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #e0e0e0;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            font-size: 16px;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #FFC107;
+            box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #FFC107;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:hover {
+            background-color: #FFA000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        /* Alert styles */
+        .alert {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        
+        .alert-danger {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+        
+        /* Link styles */
+        .link {
+            color: #FFC107;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .link:hover {
+            color: #FFA000;
+            text-decoration: underline;
+        }
+        
+        footer {
+            position: relative;
+            z-index: 10;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Star effect */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        
+        .star.medium {
+            width: 3px;
+            height: 3px;
+        }
+        
+        .star.large {
+            width: 4px;
+            height: 4px;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+        
+        /* Light beam effect */
+        .light-beam {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            box-shadow: 0 0 20px 10px rgba(100, 200, 255, 0.2);
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 900;
+                padding: 50px 0;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(10px);
+            }
+            
+            .nav-links.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .nav-links li a {
+                font-size: 22px;
+                padding: 15px;
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .nav-user {
+                position: fixed;
+                top: 15px;
+                right: 70px;
+                z-index: 990;
+            }
+            
+            .mobile-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+                z-index: 800;
+                display: none;
+            }
+            
+            .mobile-overlay.active {
+                display: block;
+            }
+            
+            .login-card {
+                width: 90%;
+                padding: 25px;
+            }
+            
+            .site-title {
+                font-size: 28px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 20px;
+            }
+            
+            input[type="text"],
+            input[type="password"] {
+                padding: 10px;
+                font-size: 15px;
+            }
+            
+            .btn {
+                padding: 12px 15px;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Light beam effect -->
+    <div class="light-beam"></div>
+    
+    <!-- Stars effect -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- Mobile menu overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    
+    <!-- Top navigation -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <a href="index.html" style="text-decoration: none; color: white;">
+                <i class="fas fa-gamepad"></i>
+            </a>
+        </div>
+        
+        <div class="mobile-menu-toggle" id="mobileMenuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" class="restricted-link" data-page="tasks.html">Tasks</a></li>
+            <li><a href="#" class="restricted-link" data-page="profile.html">Roblox Profile</a></li>
+            <li><a href="#" class="restricted-link" data-page="rewards.html">Rewards</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        
+        <div class="nav-user">
+            <i class="fas fa-user-circle"></i>
+        </div>
+    </nav>
+    
+    <!-- Main content area -->
+    <div class="content">
+        <div class="login-card">
+            <h1 class="site-title">Login</h1>
+            
+            <div id="errorAlert" class="alert alert-danger" style="display: none;">
+                <!-- Error messages will be displayed here -->
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="robloxName">Roblox Username</label>
+                    <input type="text" id="robloxName" name="robloxName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="securityAnswer">Security Answer</label>
+                    <input type="text" id="securityAnswer" name="securityAnswer" placeholder="What's your favorite game?" required>
+                </div>
+                
+                <button type="submit" class="btn btn-block" id="loginButton">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+            
+            <p style="text-align: center; margin-top: 20px; color: #e0e0e0;">
+                Don't have an account? <a href="register.html" class="link">Register</a>
+            </p>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 20px; margin-top: 20px;">
+        <p>&copy; 2023 24k_Ake Rewards. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Login form submitted');
+            
+            // Get form values
+            const robloxName = document.getElementById('robloxName').value.trim();
+            const securityAnswer = document.getElementById('securityAnswer').value.trim();
+            
+            console.log('Login attempt:', { robloxName, securityAnswer: '***' });
+            
+            // Simple validation
+            if (!robloxName || !securityAnswer) {
+                showError('Please fill in all fields');
+                return;
+            }
+            
+            try {
+                // Get users from localStorage or initialize empty array
+                let users = [];
+                try {
+                    const usersStr = localStorage.getItem('users');
+                    console.log('Users from localStorage:', usersStr);
+                    if (usersStr) {
+                        users = JSON.parse(usersStr);
+                    }
+                } catch (err) {
+                    console.error('Error parsing users from localStorage:', err);
+                    users = [];
+                }
+                
+                console.log('User count:', users.length);
+                
+                // Find user
+                const user = users.find(u => u && u.robloxName && u.robloxName.toLowerCase() === robloxName.toLowerCase());
+                
+                if (!user) {
+                    console.log('User not found:', robloxName);
+                    showError(`User not found. You need to <a href="register.html?username=${encodeURIComponent(robloxName)}" class="link" style="color: #FFC107; text-decoration: underline;">register</a> before logging in.`);
+                    return;
+                }
+                
+                console.log('User found:', user.robloxName);
+                
+                // Check security answer (case insensitive)
+                if (user.securityAnswer.toLowerCase() !== securityAnswer.toLowerCase()) {
+                    console.log('Incorrect security answer');
+                    showError('Incorrect security answer. Please try again.');
+                    return;
+                }
+                
+                // Login successful
+                document.getElementById('loginButton').innerText = 'Logging in...';
+                document.getElementById('loginButton').disabled = true;
+                
+                // Store user info in multiple storage methods for redundancy
+                try {
+                    localStorage.setItem('robloxName', user.robloxName);
+                    console.log('User logged in (localStorage):', user.robloxName);
+                } catch (loginErr) {
+                    console.error('Error setting localStorage login status:', loginErr);
+                }
+                
+                try {
+                    sessionStorage.setItem('robloxName', user.robloxName);
+                    console.log('User logged in (sessionStorage):', user.robloxName);
+                } catch (sessionErr) {
+                    console.error('Error setting sessionStorage login status:', sessionErr);
+                }
+                
+                // Global fallback storage
+                window.currentUser = user.robloxName;
+                console.log('User logged in (global var):', user.robloxName);
+                
+                console.log('Login successful, redirecting to tasks page...');
+                
+                // Redirect to tasks page immediately
+                try {
+                    console.log('Redirecting to tasks.html');
+                    window.location.href = 'tasks.html?user=' + encodeURIComponent(user.robloxName);
+                } catch (e) {
+                    console.error('Error redirecting:', e);
+                    alert('Redirecting to tasks page...');
+                    // Fallback redirect
+                    setTimeout(function() {
+                        window.open('tasks.html?user=' + encodeURIComponent(user.robloxName), '_self');
+                    }, 500);
+                }
+            } catch (mainError) {
+                console.error('Main login error:', mainError);
+                alert('An error occurred during login. Please try again.');
+            }
+        });
+        
+        function showError(message) {
+            const errorAlert = document.getElementById('errorAlert');
+            errorAlert.innerHTML = message;
+            errorAlert.style.display = 'block';
+            
+            // Hide alert after 7 seconds if it doesn't contain a link
+            if (!message.includes('href=')) {
+                setTimeout(() => {
+                    errorAlert.style.display = 'none';
+                }, 7000);
+            }
+        }
+        
+        // Check if we have admin hardcoded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if localStorage is available
+            if (!checkLocalStorage()) {
+                // If localStorage is not available, don't continue with initialization
+                return;
+            }
+            
+            // Get users from localStorage
+            let users = [];
+            try {
+                const usersStr = localStorage.getItem('users');
+                console.log('Users from localStorage:', usersStr);
+                if (usersStr) {
+                    users = JSON.parse(usersStr);
+                }
+            } catch (err) {
+                console.error('Error parsing users from localStorage:', err);
+                users = [];
+            }
+            
+            console.log('User count:', users.length);
+            
+            // Check if the user has provided a username through URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const robloxName = urlParams.get('username');
+            
+            if (robloxName) {
+                // If we have a username from URL, check if it exists
+                const userExists = users.some(u => u && u.robloxName && u.robloxName.toLowerCase() === robloxName.toLowerCase());
+                if (!userExists) {
+                    // Show message that user needs to register first
+                    const errorAlert = document.getElementById('errorAlert');
+                    errorAlert.innerHTML = 'This username is not registered. You need to <a href="register.html" class="link" style="color: #FFC107; text-decoration: underline;">register</a> before logging in.';
+                    errorAlert.style.display = 'block';
+                    // Pre-fill the username field
+                    document.getElementById('robloxName').value = robloxName;
+                }
+            }
+            
+            // If admin doesn't exist, create it
+            if (!users.some(u => u && u.robloxName && u.robloxName === '24k_Ake')) {
+                const adminUser = {
+                    robloxName: '24k_Ake',
+                    securityQuestion: 'Are you the admin?',
+                    securityAnswer: 'yes',
+                    balance: 1000,
+                    tasksDone: {
+                        follow: true,
+                        group: true,
+                        sub: true,
+                        games: [true, true, true, true, true, true]
+                    },
+                    isDonated: false
+                };
+                
+                users.push(adminUser);
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            // Create stars
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 100;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Randomize star size
+                if (Math.random() > 0.8) {
+                    star.classList.add('medium');
+                } else if (Math.random() > 0.9) {
+                    star.classList.add('large');
+                }
+                
+                // Randomize position
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // Randomize animation delay
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsContainer.appendChild(star);
+            }
+            
+            // Mobile menu toggle
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navLinks = document.getElementById('navLinks');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const loginCard = document.querySelector('.login-card');
+            
+            mobileMenuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                mobileOverlay.classList.toggle('active');
+                
+                // When menu is open, slightly reduce the opacity of the login card
+                if (navLinks.classList.contains('active')) {
+                    loginCard.style.opacity = '0.3';
+                } else {
+                    loginCard.style.opacity = '1';
+                }
+                
+                // Toggle the menu icon between bars and X
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('fa-bars')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            mobileOverlay.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                mobileOverlay.classList.remove('active');
+                loginCard.style.opacity = '1';
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+            
+            // Close menu when a link is clicked
+            const menuLinks = document.querySelectorAll('.nav-links li a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navLinks.classList.remove('active');
+                    mobileOverlay.classList.remove('active');
+                    loginCard.style.opacity = '1';
+                    const icon = mobileMenuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                });
+            });
+            
+            // Handle restricted links
+            const restrictedLinks = document.querySelectorAll('.restricted-link');
+            restrictedLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetPage = this.getAttribute('data-page');
+                    const isLoggedIn = localStorage.getItem('robloxName');
+                    
+                    if (isLoggedIn) {
+                        // User is logged in, navigate to the page
+                        window.location.href = targetPage;
+                    } else {
+                        // User is not logged in, redirect to register page
+                        window.location.href = 'register.html';
+                    }
+                });
+            });
+            
+            // Fix 100vh issue on mobile browsers
+            const setVH = () => {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            };
+            
+            setVH();
+            window.addEventListener('resize', setVH);
+            
+            // Set up admin account security question and answer if needed
+            function setupAdminAccount() {
+                try {
+                    let users = JSON.parse(localStorage.getItem('users') || '[]');
+                    const adminIndex = users.findIndex(u => u.robloxName === '24k_Ake');
+                    
+                    if (adminIndex !== -1) {
+                        // Update existing admin account
+                        users[adminIndex].securityQuestion = 'What is your favorite game?';
+                        users[adminIndex].securityAnswer = 'phone11';
+                    } else {
+                        // Create admin account if it doesn't exist
+                        users.push({
+                            robloxName: '24k_Ake',
+                            securityQuestion: 'What is your favorite game?',
+                            securityAnswer: 'phone11',
+                            balance: 0,
+                            tasksDone: {
+                                follow: false,
+                                group: false,
+                                sub: false,
+                                games: [false, false, false, false, false, false]
+                            },
+                            isDonated: false
+                        });
+                    }
+                    
+                    localStorage.setItem('users', JSON.stringify(users));
+                    console.log('Admin account security credentials updated');
+                } catch (e) {
+                    console.error('Error setting up admin account:', e);
+                }
+            }
+            
+            // Run the admin account setup
+            setupAdminAccount();
+        });
+        
+        // Check if localStorage is available and working
+        function checkLocalStorage() {
+            try {
+                const testKey = '__test_key__';
+                localStorage.setItem(testKey, testKey);
+                localStorage.removeItem(testKey);
+                console.log('localStorage is available and working');
+                return true;
+            } catch (e) {
+                console.error('localStorage is not available:', e);
+                // Show error message to user
+                showError('Your browser does not support or has disabled localStorage. Login will not work. Please enable cookies and localStorage in your browser settings.');
+                document.getElementById('loginButton').disabled = true;
+                return false;
+            }
+        }
+    </script>
+</body>
+</html> 

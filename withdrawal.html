@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Withdraw Rewards | 24k_Ake Roblox Rewards</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #FFC107;
+            --primary-dark: #FFA000;
+            --primary-light: #FFECB3;
+            --accent-color: #FF9800;
+            --text-color: #333333;
+            --light-gray: #f5f5f5;
+            --dark-gray: #9e9e9e;
+            --roblox-blue: #00A2FF;
+            --roblox-green: #02B757;
+            --youtube-red: #FF0000;
+            --success-green: #4CAF50;
+            --danger-red: #F44336;
+            --white: #FFFFFF;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #000;
+            background-image: url('https://media.wired.com/photos/64fa35ee93a336d16731ae1e/3:2/w_1920,c_limit/Roblox-Gadget-Lab-Gear.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(15, 15, 25, 0.9);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1000;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .nav-menu {
+            display: flex;
+            margin-left: auto;
+            gap: 1rem;
+        }
+        
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item span {
+            font-size: 16px;
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+        }
+        
+        .nav-item:hover,
+        .nav-item.active {
+            color: #FFC107;
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Card styles */
+        .card {
+            background-color: rgba(15, 15, 25, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            margin: 20px auto;
+            color: white;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        /* Alert styles */
+        .alert {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        
+        .alert-danger {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+        
+        .alert-success {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+        
+        /* User balance */
+        .user-balance {
+            background-color: rgba(255, 248, 225, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 193, 7, 0.2);
+        }
+        
+        .balance-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+        
+        /* Withdrawal form */
+        .withdrawal-form {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.2);
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .btn-green {
+            background-color: var(--roblox-green);
+            color: white;
+        }
+        
+        .btn-green:hover {
+            background-color: #019a49;
+        }
+        
+        /* Link styles */
+        .link {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        footer {
+            position: relative;
+            z-index: 10;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        /* Notification system styles */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            max-width: 350px;
+            z-index: 9999;
+        }
+        
+        .notification {
+            background-color: rgba(15, 15, 25, 0.9);
+            color: white;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease-out forwards;
+            backdrop-filter: blur(10px);
+        }
+        
+        .notification.warning {
+            border-left-color: var(--danger-red);
+        }
+        
+        .notification.success {
+            border-left-color: var(--success-green);
+        }
+        
+        .notification-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .notification-title i {
+            margin-right: 8px;
+        }
+        
+        .notification-content {
+            font-size: 14px;
+        }
+        
+        .notification-close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            cursor: pointer;
+            color: var(--dark-gray);
+            font-size: 16px;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 24px;
+                cursor: pointer;
+                z-index: 2000;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1500;
+                display: flex;
+            }
+            
+            .nav-menu.active {
+                opacity: 1;
+                visibility: visible;
+                display: flex !important;
+            }
+            
+            .nav-item {
+                font-size: 24px;
+                padding: 1rem 2rem;
+                width: 80%;
+                text-align: center;
+                justify-content: center;
+                color: white !important;
+            }
+            
+            .nav-item span {
+                font-size: 20px;
+                margin-left: 15px;
+                color: white;
+            }
+            
+            .nav-item i {
+                font-size: 24px;
+                color: #FFC107 !important;
+            }
+            
+            body.menu-active {
+                overflow: hidden;
+            }
+            
+            .card {
+                padding: 20px;
+                margin: 10px auto;
+            }
+            
+            .balance-value {
+                font-size: 24px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .card {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .balance-value {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification container -->
+    <div class="notification-container" id="notificationContainer"></div>
+    
+    <!-- Top navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">24k_Ake</a>
+        
+        <div class="mobile-menu-toggle" id="mobileMenuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+
+        <div class="nav-menu" id="navMenu">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home" style="color: #FFC107;"></i>
+                <span>Home</span>
+            </a>
+            <a href="tasks.html" class="nav-item">
+                <i class="fas fa-tasks" style="color: #FFC107;"></i>
+                <span>Tasks</span>
+            </a>
+            <a href="https://www.roblox.com/users/1959890949/profile" target="_blank" class="nav-item">
+                <i class="fas fa-user" style="color: #FFC107;"></i>
+                <span>Roblox Profile</span>
+            </a>
+            <a href="withdrawal.html" class="nav-item active">
+                <i class="fas fa-gift" style="color: #FFC107;"></i>
+                <span>Rewards</span>
+            </a>
+            <a href="contact.html" class="nav-item">
+                <i class="fas fa-envelope" style="color: #FFC107;"></i>
+                <span>Contact</span>
+            </a>
+            <a href="#" class="nav-item" id="logoutLink">
+                <i class="fas fa-sign-out-alt" style="color: #FFC107;"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="card">
+            <h1 style="text-align: center;">Withdraw Your Rewards</h1>
+            <p style="text-align: center; margin-bottom: 20px;">Welcome, <span id="userNameDisplay" style="font-weight: bold;"></span>!</p>
+            
+            <div id="notLoggedInMessage" style="display: none;">
+                <div class="alert alert-danger">
+                    You need to log in to withdraw rewards. Redirecting to login page...
+                </div>
+            </div>
+            
+            <div id="userContent" style="display: none;">
+                                <div class="user-balance">                    <p>Your Current Balance:</p>                    <div class="balance-value"><span id="balanceDisplay">0</span> Points</div>                    <p style="margin-top: 10px; font-size: 14px; color: rgba(255, 255, 255, 0.7);">                        10 points = 5 Robux (2:1 conversion rate)                    </p>                </div>
+                
+                <div id="withdrawalStatus" style="display: none; margin-bottom: 20px;"></div>
+                
+                                <div class="withdrawal-form">                    <h2>Request Withdrawal</h2>                    <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.7);">                        We use a 2:1 conversion rate - for every 2 points you have, you can get 1 Robux.                         For example, 10 points = 5 Robux, and 99 points = 49 Robux.                        Admin will review your request and send the Robux to your account.                    </p>                    
+                    <form id="withdrawForm">
+                        <div class="form-group">
+                            <label for="withdrawAmount">Amount to Withdraw (in Robux)</label>
+                            <input type="number" id="withdrawAmount" min="5" step="1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="robloxUsername">Confirm Your Roblox Username</label>
+                            <input type="text" id="robloxUsername" required readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="withdrawalNote">Additional Notes (Optional)</label>
+                            <textarea id="withdrawalNote" placeholder="Any specific instructions for the admin..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-green btn-block" id="withdrawButton">
+                            <i class="fas fa-money-bill-wave"></i> Request Withdrawal
+                        </button>
+                    </form>
+                </div>
+                
+                <div id="previousWithdrawals" style="margin-top: 30px;">
+                    <h2>Previous Withdrawal Requests</h2>
+                    <div id="withdrawalHistory"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 24k_Ake Rewards. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Withdrawal page loaded');
+            
+            // Check if user is logged in
+            let robloxName = localStorage.getItem('robloxName');
+            
+            if (!robloxName) {
+                robloxName = sessionStorage.getItem('robloxName');
+            }
+            
+            if (!robloxName && window.currentUser) {
+                robloxName = window.currentUser;
+            }
+            
+            console.log('Logged in user:', robloxName || 'none');
+            
+            if (!robloxName) {
+                console.log('No user logged in, redirecting to register page');
+                // Not logged in, show message and redirect to register page
+                document.getElementById('notLoggedInMessage').style.display = 'block';
+                document.getElementById('userContent').style.display = 'none';
+                
+                setTimeout(function() {
+                    window.location.href = 'register.html';
+                }, 2000);
+                return;
+            }
+            
+            // User is logged in
+            document.getElementById('userNameDisplay').textContent = robloxName;
+            document.getElementById('robloxUsername').value = robloxName;
+            document.getElementById('notLoggedInMessage').style.display = 'none';
+            document.getElementById('userContent').style.display = 'block';
+            
+            // Load user data
+            let users = [];
+            let currentUser = null;
+            
+            try {
+                users = JSON.parse(localStorage.getItem('users') || '[]');
+                currentUser = users.find(user => user && user.robloxName && user.robloxName === robloxName);
+                
+                if (currentUser) {
+                    document.getElementById('balanceDisplay').textContent = currentUser.balance;
+                    
+                    // Calculate max Robux they can withdraw based on points
+                    const maxRobux = pointsToRobux(currentUser.balance);
+                    
+                    // Set minimum and maximum withdrawal amount
+                    document.getElementById('withdrawAmount').setAttribute('min', '5');
+                    document.getElementById('withdrawAmount').setAttribute('max', maxRobux);
+                    document.getElementById('withdrawAmount').setAttribute('value', Math.min(maxRobux, 5));
+                }
+            } catch (e) {
+                console.error('Error loading user data:', e);
+            }
+            
+            // Check for any existing withdrawal requests
+            try {
+                const withdrawals = JSON.parse(localStorage.getItem('withdrawalRequests') || '[]');
+                const userWithdrawals = withdrawals.filter(w => w.username === robloxName);
+                
+                if (userWithdrawals.length > 0) {
+                    displayWithdrawalHistory(userWithdrawals);
+                } else {
+                    document.getElementById('withdrawalHistory').innerHTML = '<p style="color: rgba(255, 255, 255, 0.7);">You have no previous withdrawal requests.</p>';
+                }
+            } catch (e) {
+                console.error('Error loading withdrawal history:', e);
+            }
+            
+            // Handle form submission
+            document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const amount = parseInt(document.getElementById('withdrawAmount').value);
+                const note = document.getElementById('withdrawalNote').value;
+                const pointsNeeded = amount * 2; // 2:1 conversion rate
+                
+                // Validate withdrawal amount
+                if (amount < 5) {
+                    showNotification('Error', 'Minimum withdrawal amount is 5 Robux', 'warning');
+                    return;
+                }
+                
+                if (pointsNeeded > currentUser.balance) {
+                    showNotification('Error', 'You don\'t have enough points for this withdrawal', 'warning');
+                    return;
+                }
+                
+                // Create withdrawal request
+                const withdrawalRequest = {
+                    id: Date.now(),
+                    username: robloxName,
+                    amount: amount,
+                    pointsDeducted: pointsNeeded,
+                    note: note,
+                    status: 'pending',
+                    requested: Date.now()
+                };
+                
+                console.log("Creating withdrawal request:", withdrawalRequest);
+                
+                // Save withdrawal request
+                let withdrawalRequests = [];
+                
+                try {
+                    // Get existing withdrawal requests
+                    try {
+                        withdrawalRequests = JSON.parse(localStorage.getItem('withdrawalRequests') || '[]');
+                        if (!Array.isArray(withdrawalRequests)) {
+                            console.warn("withdrawalRequests is not an array, resetting");
+                            withdrawalRequests = [];
+                        }
+                    } catch (parseError) {
+                        console.error("Error parsing withdrawalRequests:", parseError);
+                        withdrawalRequests = [];
+                    }
+                    
+                    // Add the new request
+                    withdrawalRequests.push(withdrawalRequest);
+                    
+                    // Save back to localStorage
+                    localStorage.setItem('withdrawalRequests', JSON.stringify(withdrawalRequests));
+                    console.log("Withdrawal requests saved:", withdrawalRequests);
+                    
+                    // IMPORTANT: Deduct the points from user's balance immediately
+                    currentUser.balance -= pointsNeeded;
+                    const userIndex = users.findIndex(user => user.robloxName === robloxName);
+                    if (userIndex !== -1) {
+                        users[userIndex].balance = currentUser.balance;
+                        localStorage.setItem('users', JSON.stringify(users));
+                        
+                        // Update displayed balance
+                        document.getElementById('balanceDisplay').textContent = currentUser.balance;
+                        
+                        // Update the max withdrawal amount
+                        const maxRobux = pointsToRobux(currentUser.balance);
+                        document.getElementById('withdrawAmount').setAttribute('max', maxRobux);
+                        document.getElementById('withdrawAmount').value = Math.min(maxRobux, 5);
+                    }
+                    
+                    // Update withdrawal history
+                    displayWithdrawalHistory([...withdrawalRequests.filter(w => w.username === robloxName)]);
+                    
+                    // Show success message
+                    const withdrawalStatus = document.getElementById('withdrawalStatus');
+                    withdrawalStatus.className = 'alert alert-success';
+                    withdrawalStatus.innerHTML = `<strong>Withdrawal Request Submitted!</strong><br>Your request for ${amount} Robux has been submitted and is pending admin approval. ${pointsNeeded} points have been deducted from your balance.`;
+                    withdrawalStatus.style.display = 'block';
+                    
+                    // Reset form
+                    document.getElementById('withdrawalNote').value = '';
+                    
+                    // Show notification
+                    showNotification('Success', 'Withdrawal request submitted successfully. Points deducted from your balance.', 'success');
+                    
+                } catch (e) {
+                    console.error('Error saving withdrawal request:', e);
+                    showNotification('Error', 'Failed to submit withdrawal request. Please try again.', 'warning');
+                }
+            });
+            
+            // Logout functionality
+            document.getElementById('logoutLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('robloxName');
+                sessionStorage.removeItem('robloxName');
+                window.location.href = 'index.html';
+            });
+            
+            // Mobile menu toggle
+            const menuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            menuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                document.body.classList.toggle('menu-active');
+                
+                // Toggle between hamburger and close icon
+                const icon = this.querySelector('i');
+                if (navMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            // Close menu when clicking a link
+            const navLinks = document.querySelectorAll('.nav-item');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    document.body.classList.remove('menu-active');
+                    const icon = menuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                });
+            });
+        });
+        
+        // Convert points to Robux (2:1 ratio)
+        function pointsToRobux(points) {
+            return Math.floor(points / 2);
+        }
+        
+        // Display withdrawal history
+        function displayWithdrawalHistory(withdrawals) {
+            const historyContainer = document.getElementById('withdrawalHistory');
+            
+            if (withdrawals.length === 0) {
+                historyContainer.innerHTML = '<p style="color: rgba(255, 255, 255, 0.7);">You have no previous withdrawal requests.</p>';
+                return;
+            }
+            
+            // Sort by date (newest first)
+            withdrawals.sort((a, b) => b.requested - a.requested);
+            
+            let html = '<div style="margin-top: 15px;">';
+            
+            withdrawals.forEach(withdrawal => {
+                const date = new Date(withdrawal.requested).toLocaleString();
+                let statusColor = 'var(--primary-color)';
+                let statusIcon = 'clock';
+                
+                if (withdrawal.status === 'approved') {
+                    statusColor = 'var(--success-green)';
+                    statusIcon = 'check-circle';
+                } else if (withdrawal.status === 'rejected') {
+                    statusColor = 'var(--danger-red)';
+                    statusIcon = 'times-circle';
+                }
+                
+                html += `
+                    <div style="background-color: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 15px; margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <div><strong>${withdrawal.amount} Robux</strong></div>
+                            <div style="color: ${statusColor};">
+                                <i class="fas fa-${statusIcon}"></i> 
+                                ${withdrawal.status.charAt(0).toUpperCase() + withdrawal.status.slice(1)}
+                            </div>
+                        </div>
+                        <div style="font-size: 14px; color: rgba(255, 255, 255, 0.7);">
+                            Requested on ${date}
+                        </div>
+                        ${withdrawal.note ? `<div style="margin-top: 10px; font-style: italic;">"${withdrawal.note}"</div>` : ''}
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            historyContainer.innerHTML = html;
+        }
+        
+        // Show notification
+        function showNotification(title, message, type = 'info', duration = 5000) {
+            const container = document.getElementById('notificationContainer');
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            // Add icon based on type
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'warning') icon = 'exclamation-triangle';
+            if (type === 'error') icon = 'times-circle';
+            
+            // Set notification content
+            notification.innerHTML = `
+                <div class="notification-title">
+                    <i class="fas fa-${icon}"></i> ${title}
+                </div>
+                <div class="notification-content">${message}</div>
+                <div class="notification-close"><i class="fas fa-times"></i></div>
+            `;
+            
+            // Add to container
+            container.appendChild(notification);
+            
+            // Add event listener to close button
+            const closeBtn = notification.querySelector('.notification-close');
+            closeBtn.addEventListener('click', function() {
+                notification.style.animation = 'slideOut 0.3s forwards';
+                setTimeout(() => {
+                    container.removeChild(notification);
+                }, 300);
+            });
+            
+            // Auto-remove after duration
+            if (duration > 0) {
+                setTimeout(() => {
+                    if (notification.parentNode === container) {
+                        notification.style.animation = 'slideOut 0.3s forwards';
+                        setTimeout(() => {
+                            if (notification.parentNode === container) {
+                                container.removeChild(notification);
+                            }
+                        }, 300);
+                    }
+                }, duration);
+            }
+            
+            return notification;
+        }
+    </script>
+</body>
+</html> 

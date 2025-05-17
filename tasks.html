@@ -1,0 +1,2578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Your Tasks | 24k_Ake Roblox Rewards</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #FFC107;
+            --primary-dark: #FFA000;
+            --primary-light: #FFECB3;
+            --accent-color: #FF9800;
+            --text-color: #333333;
+            --light-gray: #f5f5f5;
+            --dark-gray: #9e9e9e;
+            --roblox-blue: #00A2FF;
+            --roblox-green: #02B757;
+            --youtube-red: #FF0000;
+            --success-green: #4CAF50;
+            --danger-red: #F44336;
+            --white: #FFFFFF;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #000;
+            background-image: url('https://media.wired.com/photos/64fa35ee93a336d16731ae1e/3:2/w_1920,c_limit/Roblox-Gadget-Lab-Gear.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(15, 15, 25, 0.9);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1000;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .nav-menu {
+            display: flex;
+            margin-left: auto;
+            gap: 1rem;
+        }
+        
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+        }
+        
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 24px;
+                cursor: pointer;
+                z-index: 2000;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1500;
+            }
+            
+            .nav-menu.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .nav-item {
+                font-size: 24px;
+                padding: 1rem 2rem;
+            }
+            
+            .nav-item i {
+                font-size: 28px;
+                color: var(--primary-color);
+            }
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Card styles */
+        .card {
+            background-color: rgba(15, 15, 25, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            margin: 20px auto;
+            color: white;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        /* Alert styles */
+        .alert {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        
+        .alert-danger {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+        
+        .alert-success {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+        
+        /* User balance */
+        .user-balance {
+            background-color: rgba(255, 248, 225, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 193, 7, 0.2);
+        }
+        
+        .balance-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+        
+        /* Task list styles */
+        .task-item {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+        
+        .task-item:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .task-info {
+            flex: 1;
+        }
+        
+        .task-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+        }
+        
+        .task-points {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 5px;
+        }
+        
+        .task-action {
+            text-align: right;
+            min-width: 120px;
+        }
+        
+        .task-status {
+            font-weight: bold;
+            color: var(--success-green);
+        }
+        
+        /* Timer display */
+        .timer-display {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+            border: 2px solid #FF9800;
+            background-color: rgba(255, 152, 0, 0.1);
+            animation: pulse-orange 2s infinite;
+            display: block !important; /* Force display when active */
+        }
+        
+        .timer-display .keep-open-note {            
+            font-size: 0.8em;            
+            color: #FF9800;            
+            margin-top: 5px;            
+            font-style: italic;            
+            animation: blink 1.5s infinite;        
+        }
+        
+        .timer-display .time-value {
+            color: var(--primary-color);
+            font-size: 1.4em;
+            font-weight: bold;
+            display: block;
+            margin: 5px 0;
+        }
+        
+        .timer-display.running {
+            border-color: var(--success-green);
+            background-color: rgba(76, 175, 80, 0.1);
+            animation: pulse-green 2s infinite;
+        }
+        
+        .timer-display.running .time-value {
+            color: var(--success-green);
+        }
+        
+        @keyframes pulse-orange {
+            0% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 152, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
+        }
+        
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+        }
+        
+        @keyframes blink {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+        }
+        
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-blue {
+            background-color: var(--roblox-blue);
+            color: white;
+        }
+        
+        .btn-blue:hover {
+            background-color: #0077cc;
+        }
+        
+        .btn-green {
+            background-color: var(--roblox-green);
+            color: white;
+        }
+        
+        .btn-green:hover {
+            background-color: #019a49;
+        }
+        
+        .btn-red {
+            background-color: var(--youtube-red);
+            color: white;
+        }
+        
+        .btn-red:hover {
+            background-color: #cc0000;
+        }
+        
+        /* Link styles */
+        .link {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        footer {
+            position: relative;
+            z-index: 10;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        /* Star effect */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        
+        .star.medium {
+            width: 3px;
+            height: 3px;
+        }
+        
+        .star.large {
+            width: 4px;
+            height: 4px;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+        
+        /* Light beam effect */
+        .light-beam {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            box-shadow: 0 0 20px 10px rgba(100, 200, 255, 0.2);
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        /* Mobile responsive styles */
+        @media (max-width: 1024px) {
+            .navbar {
+                padding: 15px;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+                position: fixed;
+                top: 15px;
+                right: 15px;
+                z-index: 2100;
+                background: rgba(0, 0, 0, 0.5);
+                border: none;
+                color: white;
+                font-size: 28px;
+                cursor: pointer;
+                width: 45px;
+                height: 45px;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1500;
+                padding: 50px 20px;
+            }
+            
+            .nav-menu.active {
+                opacity: 1;
+                visibility: visible;
+                display: flex !important;
+            }
+            
+            /* Admin panel mobile specific styles */
+            #adminDashboard {
+                margin: 15px 0;
+                width: 90%;
+                max-width: 300px;
+                background: rgba(255, 193, 7, 0.15);
+                border: 1px solid rgba(255, 193, 7, 0.3);
+                border-radius: 12px;
+                padding: 15px 20px;
+            }
+            
+            #adminDashboard i {
+                font-size: 24px;
+                margin-right: 15px;
+            }
+            
+            #adminDashboard span {
+                font-size: 18px;
+                font-weight: 500;
+            }
+            
+            /* Enhanced visibility for admin status */
+            .admin-indicator {
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                background: rgba(255, 193, 7, 0.2);
+                color: #FFC107;
+                padding: 5px 10px;
+                border-radius: 20px;
+                font-size: 12px;
+                z-index: 2000;
+                display: none;
+            }
+            
+            .admin-indicator.visible {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .card {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .balance-value {
+                font-size: 22px;
+            }
+            
+            .task-info h3 {
+                font-size: 16px;
+            }
+        }
+        
+        /* Notification system styles */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            max-width: 350px;
+            z-index: 9999;
+        }
+        
+        .notification {
+            background-color: rgba(15, 15, 25, 0.9);
+            color: white;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease-out forwards;
+            backdrop-filter: blur(10px);
+        }
+        
+        .notification.warning {
+            border-left-color: var(--danger-red);
+        }
+        
+        .notification.success {
+            border-left-color: var(--success-green);
+        }
+        
+        .notification-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .notification-title i {
+            margin-right: 8px;
+        }
+        
+        .notification-content {
+            font-size: 14px;
+        }
+        
+        .notification-close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            cursor: pointer;
+            color: var(--dark-gray);
+            font-size: 16px;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        /* Active game status bar */
+        .active-game-status {
+            background-color: rgba(255, 152, 0, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .active-game-status.visible {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .active-game-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .timer-status-note {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+            margin-left: 10px;
+        }
+        
+        .active-game-list {
+            font-size: 14px;
+            color: white;
+        }
+        
+        .active-game-item {
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .active-game-item:last-child {
+            border-bottom: none;
+        }
+        
+        
+        
+        .game-time {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .game-status {
+            font-size: 12px;
+            background-color: rgba(255, 193, 7, 0.2);
+            border-radius: 4px;
+            padding: 2px 6px;
+            margin-left: 5px;
+        }
+        
+        
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes balancePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); color: #4CAF50; }
+            100% { transform: scale(1); }
+        }
+        
+        .highlight-balance {
+            animation: balancePulse 1s ease-in-out 3;
+        }
+
+        /* Admin dashboard specific styles */
+        #adminDashboard {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #adminDashboard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 193, 7, 0.1),
+                transparent
+            );
+            animation: shine 2s infinite;
+        }
+        
+        @keyframes shine {
+            to {
+                left: 100%;
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            #adminDashboard {
+                margin: 10px 0;
+                border-radius: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Light beam effect -->
+    <div class="light-beam"></div>
+    
+    <!-- Stars effect -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- Mobile menu overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    
+    <!-- Notification container -->
+    <div class="notification-container" id="notificationContainer"></div>
+    
+    <!-- Top navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">24k_Ake</a>
+        
+        <div class="mobile-menu-toggle" id="mobileMenuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+
+        <div class="nav-menu" id="navMenu">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home" style="color: #FFC107;"></i>
+                <span>Home</span>
+            </a>
+            <a href="tasks.html" class="nav-item active">
+                <i class="fas fa-tasks" style="color: #FFC107;"></i>
+                <span>Tasks</span>
+            </a>
+            <a href="https://www.roblox.com/users/1959890949/profile" target="_blank" class="nav-item">
+                <i class="fas fa-user" style="color: #FFC107;"></i>
+                <span>Roblox Profile</span>
+            </a>
+            <a href="withdrawal.html" class="nav-item">
+                <i class="fas fa-gift" style="color: #FFC107;"></i>
+                <span>Rewards</span>
+            </a>
+            <a href="dashboard.html" class="nav-item" id="adminDashboard" style="display: none; background: rgba(255, 193, 7, 0.15); border: 1px solid rgba(255, 193, 7, 0.3);">
+                <i class="fas fa-crown" style="color: #FFC107;"></i>
+                <span>Admin Panel</span>
+            </a>
+            <a href="contact.html" class="nav-item">
+                <i class="fas fa-envelope" style="color: #FFC107;"></i>
+                <span>Contact</span>
+            </a>
+            <a href="#" class="nav-item" id="logoutLink">
+                <i class="fas fa-sign-out-alt" style="color: #FFC107;"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="card">
+            <h1 style="text-align: center;">Your Tasks</h1>
+            <p style="text-align: center; margin-bottom: 20px;">Welcome, <span id="userNameDisplay" style="font-weight: bold;"></span>!</p>
+            
+            <div id="notLoggedInMessage" style="display: none;">
+                <div class="alert alert-danger">
+                    You need to log in to view and complete tasks. Redirecting to login page...
+                </div>
+            </div>
+            
+            <div id="userContent" style="display: none;">
+                <div class="user-balance">
+                    <p>Your Current Balance:</p>
+                    <div class="balance-value"><span id="balanceDisplay">0</span> Points</div>
+                    <p style="margin-top: 10px; font-size: 14px; color: rgba(255, 255, 255, 0.7);">
+                        10 points = 5 Robux (2:1 conversion rate)
+                    </p>
+                    <!-- Add withdrawal button -->
+                    <a href="withdrawal.html" class="btn btn-green" style="margin-top: 15px;">
+                        <i class="fas fa-money-bill-wave"></i> Withdraw Rewards
+                    </a>
+                </div>
+                
+                <!-- Active game status bar -->
+                <div class="active-game-status" id="activeGamesStatus">
+                    <div class="active-game-title">
+                        <div><i class="fas fa-gamepad"></i> Active Games</div>
+                        <div class="timer-status-note">Timers only run when this tab is open</div>
+                    </div>
+                    <div class="active-game-list" id="activeGamesList">
+                        <!-- Active games will be populated here -->
+                    </div>
+                </div>
+                
+                <div id="tasksList">
+                    <!-- Task 1: Follow -->
+                    <div class="task-item" id="followTask">
+                        <div class="task-info">
+                            <h3>Follow on Roblox</h3>
+                            <p class="task-points">10 points</p>
+                        </div>
+                        <div class="task-action">
+                            <div class="task-status" id="followStatus" style="display: none;">
+                                ✅ Completed
+                            </div>
+                            <div class="timer-display" id="followTimer" style="margin-bottom: 10px; display: none;">
+                                Time remaining: <span class="time-value">3:00</span>
+                            </div>
+                            <button class="btn btn-blue" id="followButton">
+                                Start Task
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Task 2: Join Group -->
+                    <div class="task-item" id="groupTask">
+                        <div class="task-info">
+                            <h3>Join Group</h3>
+                            <p class="task-points">10 points</p>
+                        </div>
+                        <div class="task-action">
+                            <div class="task-status" id="groupStatus" style="display: none;">
+                                ✅ Completed
+                            </div>
+                            <div class="timer-display" id="groupTimer" style="margin-bottom: 10px; display: none;">
+                                Time remaining: <span class="time-value">3:00</span>
+                            </div>
+                            <button class="btn btn-green" id="groupButton">
+                                Start Task
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Task 3: Subscribe -->
+                    <div class="task-item" id="subTask">
+                        <div class="task-info">
+                            <h3>Subscribe on YouTube</h3>
+                            <p class="task-points">10 points</p>
+                            <p class="task-link"><a href="https://www.youtube.com/@Jasm29998" target="_blank" class="link"><i class="fab fa-youtube"></i> Visit Channel</a></p>
+                        </div>
+                        <div class="task-action">
+                            <div class="task-status" id="subStatus" style="display: none;">
+                                ✅ Completed
+                            </div>
+                            <div class="timer-display" id="subTimer" style="margin-bottom: 10px; display: none;">
+                                Time remaining: <span class="time-value">3:00</span>
+                            </div>
+                            <button class="btn btn-red" id="subButton">
+                                Start Task
+                            </button>
+                        </div>
+                    </div>
+
+                    <h2 style="margin-top: 30px; text-align: center; color: var(--primary-color);">Roblox Games</h2>
+                    <p style="text-align: center; margin-bottom: 20px; color: rgba(255, 255, 255, 0.8);">Play these games for 1 hour each to earn R$10 per game</p>
+                    
+                    <!-- Game 1 -->
+                    <div class="task-item" id="game1Task">
+                        <div class="task-info">
+                            <h3>CAR LEGEND</h3>
+                            <p class="task-points">R$10 reward</p>
+                            <p class="task-link"><a href="https://www.roblox.com/games/90044595662781/CAR-LEGEND" target="_blank" class="link"><i class="fas fa-gamepad"></i> Play Game</a></p>
+                        </div>
+                        <div class="task-action">
+                            <div class="task-status" id="game1Status" style="display: none;">
+                                ✅ Completed
+                            </div>
+                            <div class="timer-display" id="game1Timer" style="margin-bottom: 10px; display: none;">
+                                Time remaining: <span class="time-value">60:00</span>
+                            </div>
+                            <button class="btn btn-blue" id="game1Button">
+                                Start Task
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Game 2 -->
+                    <div class="task-item" id="game2Task">
+                        <div class="task-info">
+                            <h3>Ultimate Punch Battleground</h3>
+                            <p class="task-points">R$10 reward</p>
+                            <p class="task-link"><a href="https://www.roblox.com/games/92912694604636/Ultimate-Punch-Battleground" target="_blank" class="link"><i class="fas fa-gamepad"></i> Play Game</a></p>
+                        </div>
+                        <div class="task-action">
+                            <div class="task-status" id="game2Status" style="display: none;">
+                                ✅ Completed
+                            </div>
+                            <div class="timer-display" id="game2Timer" style="margin-bottom: 10px; display: none;">
+                                Time remaining: <span class="time-value">60:00</span>
+                            </div>
+                            <button class="btn btn-blue" id="game2Button">
+                                Start Task
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Game 3 -->
+                    <div class="task-item" id="game3Task">
+                        <div class="task-info">
+                            <h3>TitanGrip</h3>
+                            <p class="task-points">R$10 reward</p>
+                            <p class="task-link"><a href="https://www.roblox.com/games/94422510929213/TitanGrip" target="_blank" class="link"><i class="fas fa-gamepad"></i> Play Game</a></p>
+                        </div>
+                        <div class="task-action">
+                            <div class="task-status" id="game3Status" style="display: none;">
+                                ✅ Completed
+                            </div>
+                            <div class="timer-display" id="game3Timer" style="margin-bottom: 10px; display: none;">
+                                Time remaining: <span class="time-value">60:00</span>
+                            </div>
+                            <button class="btn btn-blue" id="game3Button">
+                                Start Task
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Game 4 -->
+                    <div class="task-item" id="game4Task">
+                        <div class="task-info">
+                            <h3>Scythe Sword</h3>
+                            <p class="task-points">R$10 reward</p>
+                            <p class="task-link"><a href="https://www.roblox.com/games/91262029312681/Scythe-Sword" target="_blank" class="link"><i class="fas fa-gamepad"></i> Play Game</a></p>
+                        </div>
+                        <div class="task-action">
+                            <div class="task-status" id="game4Status" style="display: none;">
+                                ✅ Completed
+                            </div>
+                            <div class="timer-display" id="game4Timer" style="margin-bottom: 10px; display: none;">
+                                Time remaining: <span class="time-value">60:00</span>
+                            </div>
+                            <button class="btn btn-blue" id="game4Button">
+                                Start Task
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Game 5 -->
+                    <div class="task-item" id="game5Task">
+                        <div class="task-info">
+                            <h3>Shadow Slayer</h3>
+                            <p class="task-points">R$10 reward</p>
+                            <p class="task-link"><a href="https://www.roblox.com/games/97176783366995/Shadow-Slayer" target="_blank" class="link"><i class="fas fa-gamepad"></i> Play Game</a></p>
+                        </div>
+                        <div class="task-action">
+                            <div class="task-status" id="game5Status" style="display: none;">
+                                ✅ Completed
+                            </div>
+                            <div class="timer-display" id="game5Timer" style="margin-bottom: 10px; display: none;">
+                                Time remaining: <span class="time-value">60:00</span>
+                            </div>
+                            <button class="btn btn-blue" id="game5Button">
+                                Start Task
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Game 6 -->
+                    <div class="task-item" id="game6Task">
+                        <div class="task-info">
+                            <h3>Superhero Flight</h3>
+                            <p class="task-points">R$10 reward</p>
+                            <p class="task-link"><a href="https://www.roblox.com/games/135225216190420/Supeerhero-flight" target="_blank" class="link"><i class="fas fa-gamepad"></i> Play Game</a></p>
+                        </div>
+                        <div class="task-action">
+                            <div class="task-status" id="game6Status" style="display: none;">
+                                ✅ Completed
+                            </div>
+                            <div class="timer-display" id="game6Timer" style="margin-bottom: 10px; display: none;">
+                                Time remaining: <span class="time-value">60:00</span>
+                            </div>
+                            <button class="btn btn-blue" id="game6Button">
+                                Start Task
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px; font-size: 14px; color: rgba(255, 255, 255, 0.7);">
+                    <p>Complete all tasks to earn Robux. Admin will review and send rewards.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 24k_Ake Rewards. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Configuration
+        const SOCIAL_WAIT_TIME = 180; // 3 minutes
+        const GAME_WAIT_TIME = 3600; // 60 minutes (1 hour)
+        const ROBLOX_PROFILE_ID = '1959890949'; // Roblox profile ID for Jasm_29
+        const ROBLOX_GROUP_ID = '9447132'; // Roblox group ID for THE KING ROBLOX 
+        const YOUTUBE_CHANNEL = 'Jasm29998'; // YouTube channel
+        
+        // Initialize task timers
+        window.taskTimers = {};
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Tasks page loaded');
+            
+            // Timer configuration
+            const GAME_WAIT_TIME = 90 * 60; // 1.5 hours in seconds (90 minutes)
+            const SOCIAL_WAIT_TIME = 3 * 60; // 3 minutes in seconds
+            const ONE_DAY_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+            
+            // Simple visible state tracking
+            window.isTabVisible = document.visibilityState === 'visible';
+            
+            // Initialize auto-save for timers
+            setInterval(saveAllTimerStates, 30000); // Save every 30 seconds
+            
+            // Track when tab is hidden/visible
+            document.addEventListener('visibilitychange', function() {
+                window.isTabVisible = document.visibilityState === 'visible';
+            });
+            
+            // Save timers when browser is about to close
+            window.addEventListener('beforeunload', function() {
+                saveAllTimerStates();
+            });
+            
+            // Set a flag to track if the page is currently visible/active
+            window.isPageActive = true; // Assume active when first loaded
+            console.log('Initial page active state:', window.isPageActive);
+            
+            // Create a unique session ID to track browser session
+            window.sessionId = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+            
+            // Save the session ID to sessionStorage (cleared when browser closes)
+            try {
+                sessionStorage.setItem('currentSessionId', window.sessionId);
+                console.log('New session started:', window.sessionId);
+            } catch (e) {
+                console.error('Error saving to sessionStorage:', e);
+            }
+            
+            // Initialize window.lastActiveTime to track tab activity
+            window.lastActiveTime = Date.now();
+            
+            // First check if user is logged in before anything else
+            let robloxName = localStorage.getItem('robloxName');
+            
+            // Check URL parameters as a fallback
+            if (!robloxName) {
+                const urlParams = new URLSearchParams(window.location.search);
+                robloxName = urlParams.get('user');
+                console.log('Found username in URL parameters:', robloxName);
+                
+                // Try to store in localStorage if found in URL
+                if (robloxName) {
+                    try {
+                        localStorage.setItem('robloxName', robloxName);
+                    } catch (e) {
+                        console.error('Could not save to localStorage:', e);
+                    }
+                }
+            }
+            
+            // Check sessionStorage as another fallback
+            if (!robloxName) {
+                robloxName = sessionStorage.getItem('robloxName');
+                console.log('Found username in sessionStorage:', robloxName);
+            }
+            
+            // Check global variable as final fallback
+            if (!robloxName && window.currentUser) {
+                robloxName = window.currentUser;
+                console.log('Found username in global variable:', robloxName);
+            }
+            
+            console.log('Logged in user:', robloxName || 'none');
+            
+            if (!robloxName) {
+                console.log('No user logged in, redirecting to register page');
+                // Not logged in, show message and redirect to register page
+                document.getElementById('notLoggedInMessage').style.display = 'block';
+                document.getElementById('userContent').style.display = 'none';
+                
+                setTimeout(function() {
+                    window.location.href = 'register.html';
+                }, 2000);
+                return;
+            }
+            
+            // Create stars animation
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 100;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Randomize star size
+                if (Math.random() > 0.8) {
+                    star.classList.add('medium');
+                } else if (Math.random() > 0.9) {
+                    star.classList.add('large');
+                }
+                
+                // Randomize position
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // Randomize animation delay
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsContainer.appendChild(star);
+            }
+            
+            // Mobile menu toggle
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navLinks = document.getElementById('navLinks');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            
+            function disableBodyScroll() {
+                document.body.style.overflow = 'hidden';
+            }
+            function enableBodyScroll() {
+                document.body.style.overflow = '';
+            }
+            
+            mobileMenuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                mobileOverlay.classList.toggle('active');
+                // Toggle the menu icon between bars and X
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('fa-bars')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+                // Disable or enable body scroll
+                if (navLinks.classList.contains('active')) {
+                    disableBodyScroll();
+                } else {
+                    enableBodyScroll();
+                }
+            });
+            
+            mobileOverlay.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                mobileOverlay.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                enableBodyScroll();
+            });
+            
+            // Close menu when a link is clicked
+            const menuLinks = document.querySelectorAll('.nav-links a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navLinks.classList.remove('active');
+                    mobileOverlay.classList.remove('active');
+                    const icon = mobileMenuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                    enableBodyScroll();
+                });
+            });
+            
+            // User is logged in
+            document.getElementById('userNameDisplay').textContent = robloxName;
+            document.getElementById('notLoggedInMessage').style.display = 'none';
+            document.getElementById('userContent').style.display = 'block';
+            
+            // Get user data from localStorage
+            let users = [];
+            let currentUser = null;
+            
+            try {
+                users = JSON.parse(localStorage.getItem('users') || '[]');
+            } catch (e) {
+                console.error('Error retrieving users from localStorage:', e);
+                users = window.globalUsers || [];
+            }
+            
+            currentUser = users.find(user => user && user.robloxName && user.robloxName === robloxName);
+            
+            if (!currentUser) {
+                console.error('User found in authentication but not in users array:', robloxName);
+                
+                // Create a new user with default values
+                currentUser = {
+                    robloxName: robloxName,
+                    securityQuestion: 'What is your username?',
+                    securityAnswer: robloxName,
+                    balance: 0,
+                    tasksDone: {
+                        follow: false,
+                        group: false,
+                        sub: false,
+                        games: [false, false, false, false, false, false]
+                    },
+                    taskCompletionTime: {},
+                    isDonated: false
+                };
+                
+                // Add to users array
+                users.push(currentUser);
+                
+                // Save to localStorage
+                try {
+                    localStorage.setItem('users', JSON.stringify(users));
+                    console.log('Created new user profile for:', robloxName);
+                } catch (saveErr) {
+                    console.error('Error saving new user to localStorage:', saveErr);
+                    window.globalUsers = users;
+                }
+            }
+            
+            // Check if any tasks should be reset for a new day
+            const hasResetTasks = checkAndResetTasks(currentUser);
+            if (hasResetTasks) {
+                // Recalculate balance
+                calculateUserBalance(currentUser);
+                
+                // Find user index to update the array
+                const userIndex = users.findIndex(user => user && user.robloxName && user.robloxName === robloxName);
+                if (userIndex !== -1) {
+                    users[userIndex] = currentUser;
+                    // Save changes
+                    try {
+                        localStorage.setItem('users', JSON.stringify(users));
+                        console.log('Reset daily tasks for:', robloxName);
+                    } catch (e) {
+                        console.error('Error saving reset tasks to localStorage:', e);
+                        window.globalUsers = users;
+                    }
+                }
+            }
+            
+            // Update balance
+            document.getElementById('balanceDisplay').textContent = currentUser.balance;
+            
+            // Show donated message if applicable
+            if (currentUser.isDonated) {
+                document.getElementById('donatedMessage').style.display = 'block';
+            }
+            
+            // Initialize games array in tasksDone if it doesn't exist
+            if (!currentUser.tasksDone.games) {
+                currentUser.tasksDone.games = [false, false, false, false, false, false];
+                // Update localStorage with the new structure
+                const userIndex = users.findIndex(user => user.robloxName === robloxName);
+                users[userIndex] = currentUser;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            // Update task status
+            updateTaskUI('follow', currentUser.tasksDone.follow);
+            updateTaskUI('group', currentUser.tasksDone.group);
+            updateTaskUI('sub', currentUser.tasksDone.sub);
+            
+            // Update game status
+            for (let i = 1; i <= 6; i++) {
+                updateTaskUI('game' + i, currentUser.tasksDone.games[i-1]);
+            }
+            
+            // Check if admin, add dashboard link
+            if (robloxName === '24k_Ake') {
+                const navLinks = document.querySelector('.nav-links');
+                const dashboardLink = document.createElement('a');
+                dashboardLink.href = 'dashboard.html';
+                dashboardLink.innerHTML = '<i class="fas fa-tachometer-alt"></i> Dashboard';
+                navLinks.insertBefore(dashboardLink, navLinks.firstChild);
+            }
+            
+            // Attach event listeners to task buttons
+            document.getElementById('followButton').addEventListener('click', function() {
+                startTaskTimer('follow', SOCIAL_WAIT_TIME);
+            });
+            
+            document.getElementById('groupButton').addEventListener('click', function() {
+                startTaskTimer('group', SOCIAL_WAIT_TIME);
+            });
+            
+            document.getElementById('subButton').addEventListener('click', function() {
+                startTaskTimer('sub', SOCIAL_WAIT_TIME);
+            });
+            
+            // Attach event listeners to game buttons
+            for (let i = 1; i <= 6; i++) {
+                const gameButton = document.getElementById('game' + i + 'Button');
+                const gameLink = document.querySelector(`#game${i}Task .task-link a`);
+                
+                if (gameButton && gameLink) {
+                    // Store the game URL as a data attribute on the button
+                    gameButton.setAttribute('data-game-url', gameLink.href);
+                    
+                    gameButton.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Extract the game URL from the button's data attribute
+                        const gameUrl = this.getAttribute('data-game-url');
+                        console.log('Game button clicked, URL:', gameUrl);
+                        
+                        // Immediately open the game URL in a new tab
+                        if (gameUrl) {
+                            const newWindow = window.open(gameUrl, '_blank');
+                            if (!newWindow) {
+                                alert('Please allow popups to play the game. Click the Play Game link instead and then click Start Task again.');
+                            } else {
+                                console.log('Game opened in new tab');
+                            }
+                        }
+                        
+                        // Start the timer after opening the game
+                        startGameTimer(i - 1);
+                    });
+                } else {
+                    console.error(`Could not find game button or link for game ${i}`);
+                }
+            }
+            
+            // Check if we have any timers running from a previous session
+            try {
+                const savedTimers = localStorage.getItem('taskTimers_' + robloxName);
+                
+                if (savedTimers) {
+                    const timers = JSON.parse(savedTimers);
+                    console.log('Restoring saved timers:', timers);
+                    
+                    // Count the active game timers for notification
+                    let activeGameTimers = 0;
+                    const activeGames = [];
+                    
+                    // Restore each timer
+                    for (const taskId in timers) {
+                        const timer = timers[taskId];
+                        
+                        if (timer.running) {
+                            if (timer.paused && timer.remainingTimeWhenPaused > 0) {
+                                const isGame = taskId.startsWith('game');
+                                const gameIndex = isGame ? parseInt(taskId.replace('game', '')) - 1 : null;
+                                
+                                if (isGame) {
+                                    activeGameTimers++;
+                                    
+                                    // Get the game name from the DOM
+                                    const gameTitle = document.querySelector(`#game${gameIndex + 1}Task .task-info h3`).textContent;
+                                    activeGames.push({
+                                        name: gameTitle,
+                                        timeLeft: timer.remainingTimeWhenPaused,
+                                        paused: true
+                                    });
+                                    
+                                    // Automatically resume the timer if page is visible
+                                    if (window.isTabVisible) {
+                                        startGameTimer(gameIndex, timer.remainingTimeWhenPaused, true);
+                                    } else {
+                                        showPausedGameTimer(gameIndex, timer.remainingTimeWhenPaused);
+                                    }
+                                } else {
+                                    // For social tasks
+                                    if (window.isTabVisible) {
+                                        startTaskTimer(taskId, timer.remainingTimeWhenPaused, true);
+                                    } else {
+                                        showPausedTaskTimer(taskId, timer.remainingTimeWhenPaused);
+                                    }
+                                }
+                            } else if (timer.endTime > Date.now()) {
+                                // Calculate remaining time
+                                const timeLeft = Math.ceil((timer.endTime - Date.now()) / 1000);
+                                
+                                if (timeLeft > 0) {
+                                    const isGame = taskId.startsWith('game');
+                                    const gameIndex = isGame ? parseInt(taskId.replace('game', '')) - 1 : null;
+                                    
+                                    if (isGame) {
+                                        activeGameTimers++;
+                                        
+                                        // Get the game name from the DOM
+                                        const gameTitle = document.querySelector(`#game${gameIndex + 1}Task .task-info h3`).textContent;
+                                        activeGames.push({
+                                            name: gameTitle,
+                                            timeLeft: timeLeft,
+                                            paused: !window.isTabVisible
+                                        });
+                                        
+                                        // Automatically resume the timer if page is visible
+                                        if (window.isTabVisible) {
+                                            startGameTimer(gameIndex, timeLeft, true);
+                                        } else {
+                                            showPausedGameTimer(gameIndex, timeLeft);
+                                        }
+                                    } else {
+                                        // For social tasks
+                                        if (window.isTabVisible) {
+                                            startTaskTimer(taskId, timeLeft, true);
+                                        } else {
+                                            showPausedTaskTimer(taskId, timeLeft);
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (timer.completed) {
+                            // This task was already completed
+                            if (taskId.startsWith('game')) {
+                                const gameIndex = parseInt(taskId.replace('game', '')) - 1;
+                                completeGame(gameIndex, true);
+                            } else {
+                                completeTask(taskId, true);
+                            }
+                        }
+                    }
+                    
+                    // Save the updated timer state
+                    window.taskTimers = timers;
+                    saveTimerState();
+                    
+                    // If there are active game timers, show the active games status bar
+                    if (activeGames.length > 0) {
+                        updateActiveGamesStatus(activeGames);
+                    }
+                }
+            } catch (e) {
+                console.error('Error restoring timers:', e);
+            }
+            
+            // Logout link handler
+            document.getElementById('logoutLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('robloxName');
+                sessionStorage.removeItem('robloxName');
+                window.location.href = 'index.html';
+            });
+            
+            // Fix 100vh issue on mobile browsers
+            const setVH = () => {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            };
+            
+            setVH();
+            window.addEventListener('resize', setVH);
+
+            // Set up a timer to refresh task availability periodically
+            setInterval(function() {
+                // Update the task availability 
+                if (currentUser) {
+                    const hasResetTasks = checkAndResetTasks(currentUser);
+                    
+                    if (hasResetTasks) {
+                        // Recalculate balance
+                        calculateUserBalance(currentUser);
+                        
+                        // Find user index to update the array
+                        const userIndex = users.findIndex(user => user && user.robloxName && user.robloxName === robloxName);
+                        
+                        if (userIndex !== -1) {
+                            users[userIndex] = currentUser;
+                            // Save changes
+                            try {
+                                localStorage.setItem('users', JSON.stringify(users));
+                                console.log('Reset tasks for:', robloxName);
+                            } catch (e) {
+                                console.error('Error saving reset tasks to localStorage:', e);
+                                window.globalUsers = users;
+                            }
+                        }
+                    }
+                    
+                    // Update UI for each task to refresh countdowns
+                    updateTaskUI('follow', currentUser.tasksDone.follow);
+                    updateTaskUI('group', currentUser.tasksDone.group);
+                    updateTaskUI('sub', currentUser.tasksDone.sub);
+                    
+                    // Update game status
+                    for (let i = 1; i <= 6; i++) {
+                        updateTaskUI('game' + i, currentUser.tasksDone.games[i-1]);
+                    }
+                }
+            }, 60000); // Check every minute
+
+            // Add admin fix function if user is 24k_Ake
+            if (robloxName === '24k_Ake') {
+                console.log('Admin user detected, adding fix functions');
+                
+                const adminActionArea = document.createElement('div');
+                adminActionArea.style.marginTop = '20px';
+                adminActionArea.innerHTML = `
+                    <div style="background-color: rgba(255, 0, 0, 0.1); padding: 10px; border-radius: 8px; margin-top: 10px;">
+                        <h3 style="color: var(--danger-red); margin-top: 0;">Admin Actions</h3>
+                        <button onclick="fixWithdrawalRequests()" class="btn btn-red" style="margin-right: 10px;">
+                            <i class="fas fa-wrench"></i> Fix Withdrawals
+                        </button>
+                        <button onclick="window.location.href='dashboard.html'" class="btn" style="background-color: #7e57c2; color: white;">
+                            <i class="fas fa-tachometer-alt"></i> Admin Dashboard
+                        </button>
+                    </div>
+                `;
+                
+                // Add after the user info card
+                const userInfoCard = document.querySelector('.card');
+                userInfoCard.parentNode.insertBefore(adminActionArea, userInfoCard.nextSibling);
+            }
+
+            // Check if user is admin and show dashboard link
+            const adminDashboard = document.getElementById('adminDashboard');
+            
+            if (robloxName === '24k_Ake' && adminDashboard) {
+                adminDashboard.style.display = 'flex';
+            }
+        });
+        
+        // Check if a task is available based on completion time
+        function isTaskAvailable(taskCompletionTime) {
+            if (!taskCompletionTime) return true; // Never completed, so available
+            
+            const now = new Date();
+            const completionDate = new Date(taskCompletionTime);
+            
+            // Calculate time difference in minutes
+            const minutesSinceCompletion = Math.floor((now - completionDate) / (1000 * 60));
+            
+            // Task is available if it was completed more than 20 minutes ago
+            return minutesSinceCompletion >= 20;
+        }
+        
+        // Check and reset tasks that should be available again
+        function checkAndResetTasks(user) {
+            if (!user) return;
+            
+            // Skip if no completion times are recorded
+            if (!user.taskCompletionTime) return;
+            
+            let hasChanges = false;
+            
+            // Check social tasks
+            ['follow', 'group', 'sub'].forEach(taskName => {
+                if (user.tasksDone[taskName] && isTaskAvailable(user.taskCompletionTime[taskName])) {
+                    user.tasksDone[taskName] = false;
+                    hasChanges = true;
+                }
+            });
+            
+            // Check game tasks
+            if (user.tasksDone.games) {
+                for (let i = 0; i < user.tasksDone.games.length; i++) {
+                    const taskId = 'game' + (i + 1);
+                    if (user.tasksDone.games[i] && isTaskAvailable(user.taskCompletionTime[taskId])) {
+                        user.tasksDone.games[i] = false;
+                        hasChanges = true;
+                    }
+                }
+            }
+            
+            return hasChanges;
+        }
+        
+        function updateTaskUI(taskName, isCompleted) {
+            const statusElement = document.getElementById(taskName + 'Status');
+            const buttonElement = document.getElementById(taskName + 'Button');
+            const timerElement = document.getElementById(taskName + 'Timer');
+            
+            if (isCompleted) {
+                // Get user data to check exact completion time
+                const robloxName = localStorage.getItem('robloxName') || 
+                                   sessionStorage.getItem('robloxName') || 
+                                   window.currentUser;
+                                
+                if (robloxName) {
+                    try {
+                        const users = JSON.parse(localStorage.getItem('users') || '[]');
+                        const user = users.find(u => u && u.robloxName === robloxName);
+                        
+                        if (user && user.taskCompletionTime && user.taskCompletionTime[taskName]) {
+                            const completionTime = new Date(user.taskCompletionTime[taskName]);
+                            const now = new Date();
+                            const minutesElapsed = Math.floor((now - completionTime) / (1000 * 60));
+                            const minutesRemaining = Math.max(0, 20 - minutesElapsed);
+                            
+                            if (minutesRemaining > 0) {
+                                statusElement.style.display = 'block';
+                                statusElement.innerHTML = `✅ Completed (available in ${minutesRemaining} min)`;
+                                buttonElement.style.display = 'none';
+                                if (timerElement) timerElement.style.display = 'none';
+                            } else {
+                                // It's been 20+ minutes, task should be available again
+                                statusElement.style.display = 'none';
+                                buttonElement.style.display = 'inline-block';
+                                buttonElement.disabled = false;
+                                buttonElement.textContent = 'Start Task';
+                                if (timerElement) timerElement.style.display = 'none';
+                            }
+                            return;
+                        }
+                    } catch (e) {
+                        console.error('Error checking task completion time:', e);
+                    }
+                }
+                
+                // Fallback to simple completed display if we can't calculate remaining time
+                statusElement.style.display = 'block';
+                statusElement.innerHTML = '✅ Completed (available again in 20 min)';
+                buttonElement.style.display = 'none';
+                if (timerElement) timerElement.style.display = 'none';
+            } else {
+                statusElement.style.display = 'none';
+                buttonElement.style.display = 'inline-block';
+                buttonElement.disabled = false;
+                buttonElement.textContent = 'Start Task';
+                if (timerElement) timerElement.style.display = 'none';
+            }
+        }
+        
+        function completeTask(taskName, skipTimerCheck = false) {
+            try {
+                // If timer check is not skipped, make sure the task timer has finished
+                if (!skipTimerCheck) {
+                    const timer = window.taskTimers[taskName];
+                    if (!timer || !timer.running || Date.now() < timer.endTime) {
+                        console.error('Attempted to complete task before timer finished');
+                        return;
+                    }
+                }
+                
+                // Get current user
+                const robloxName = localStorage.getItem('robloxName') || 
+                                  sessionStorage.getItem('robloxName') || 
+                                  window.currentUser;
+                
+                if (!robloxName) {
+                    console.error('No user found in any storage');
+                    return;
+                }
+                
+                let users;
+                
+                try {
+                    users = JSON.parse(localStorage.getItem('users') || '[]');
+                } catch (e) {
+                    console.error('Error loading users from localStorage:', e);
+                    users = window.globalUsers || [];
+                }
+                
+                const userIndex = users.findIndex(user => user && user.robloxName && user.robloxName === robloxName);
+                
+                if (userIndex === -1) {
+                    console.error('User not found:', robloxName);
+                    return;
+                }
+                
+                // Initialize the task completion timestamps if it doesn't exist
+                if (!users[userIndex].taskCompletionTime) {
+                    users[userIndex].taskCompletionTime = {};
+                }
+                
+                // Record completion time for this task
+                users[userIndex].taskCompletionTime[taskName] = Date.now();
+                
+                // Update task status
+                users[userIndex].tasksDone[taskName] = true;
+                
+                // Get old balance for comparison
+                const oldBalance = users[userIndex].balance;
+                
+                // Calculate new balance (10 points per task)
+                calculateUserBalance(users[userIndex]);
+                
+                // Get the task title for display
+                let taskTitle = taskName;
+                switch(taskName) {
+                    case 'follow':
+                        taskTitle = 'Following on Roblox';
+                        break;
+                    case 'group':
+                        taskTitle = 'Joining Roblox Group';
+                        break;
+                    case 'sub':
+                        taskTitle = 'Subscribing on YouTube';
+                        break;
+                }
+                
+                // Save changes
+                try {
+                    localStorage.setItem('users', JSON.stringify(users));
+                } catch (e) {
+                    console.error('Error saving to localStorage:', e);
+                    window.globalUsers = users;
+                }
+                
+                // Update UI
+                updateTaskUI(taskName, true);
+                document.getElementById('balanceDisplay').textContent = users[userIndex].balance;
+                
+                // Highlight the balance change with animation
+                const balanceElement = document.querySelector('.balance-value');
+                balanceElement.classList.add('highlight-balance');
+                setTimeout(() => {
+                    balanceElement.classList.remove('highlight-balance');
+                }, 3000);
+                
+                // Mark task as completed in timer storage
+                if (window.taskTimers[taskName]) {
+                    window.taskTimers[taskName].running = false;
+                    window.taskTimers[taskName].completed = true;
+                    saveTimerState();
+                }
+                
+                // Points earned
+                const pointsEarned = users[userIndex].balance - oldBalance;
+                
+                // Show success message
+                showNotification(
+                    'Task Completed!', 
+                    `You've successfully completed the "${taskTitle}" task and earned ${pointsEarned} points! Your new balance is ${users[userIndex].balance} points.`, 
+                    'success', 
+                    8000
+                );
+                
+                // Also show alert for good measure
+                alert(`Congratulations! You've completed the "${taskTitle}" task and earned ${pointsEarned} points! You can complete this task again after 20 minutes.`);
+            } catch (err) {
+                console.error('Error in completeTask:', err);
+                alert('Something went wrong. Please try again.');
+            }
+        }
+        
+        function completeGame(gameIndex, skipTimerCheck = false) {
+            try {
+                const taskId = 'game' + (gameIndex + 1);
+                
+                // If timer check is not skipped, make sure the task timer has finished
+                if (!skipTimerCheck) {
+                    const timer = window.taskTimers[taskId];
+                    if (!timer || !timer.running || Date.now() < timer.endTime) {
+                        console.error('Attempted to complete game before timer finished');
+                        return;
+                    }
+                }
+                
+                // Get current user
+                const robloxName = localStorage.getItem('robloxName') || 
+                                  sessionStorage.getItem('robloxName') || 
+                                  window.currentUser;
+                
+                if (!robloxName) {
+                    console.error('No user found in any storage');
+                    return;
+                }
+                
+                let users;
+                
+                try {
+                    users = JSON.parse(localStorage.getItem('users') || '[]');
+                } catch (e) {
+                    console.error('Error loading users from localStorage:', e);
+                    users = window.globalUsers || [];
+                }
+                
+                const userIndex = users.findIndex(user => user && user.robloxName && user.robloxName === robloxName);
+                
+                if (userIndex === -1) {
+                    console.error('User not found:', robloxName);
+                    return;
+                }
+                
+                // Initialize games array if it doesn't exist
+                if (!users[userIndex].tasksDone.games) {
+                    users[userIndex].tasksDone.games = [false, false, false, false, false, false];
+                }
+                
+                // Initialize the task completion timestamps if it doesn't exist
+                if (!users[userIndex].taskCompletionTime) {
+                    users[userIndex].taskCompletionTime = {};
+                }
+                
+                // Get the game title for display
+                const gameTitle = document.querySelector(`#game${gameIndex + 1}Task .task-info h3`).textContent || `Game ${gameIndex + 1}`;
+                
+                // Get old balance for comparison
+                const oldBalance = users[userIndex].balance;
+                
+                // Record completion time for this game
+                users[userIndex].taskCompletionTime[taskId] = Date.now();
+                
+                // Update game status
+                users[userIndex].tasksDone.games[gameIndex] = true;
+                
+                // Calculate new balance (10 points per completed task/game)
+                calculateUserBalance(users[userIndex]);
+                
+                // Points earned
+                const pointsEarned = users[userIndex].balance - oldBalance;
+                
+                // Save changes
+                try {
+                    localStorage.setItem('users', JSON.stringify(users));
+                } catch (e) {
+                    console.error('Error saving to localStorage:', e);
+                    window.globalUsers = users;
+                }
+                
+                // Update UI
+                updateTaskUI(taskId, true);
+                document.getElementById('balanceDisplay').textContent = users[userIndex].balance;
+                
+                // Highlight the balance change with animation
+                const balanceElement = document.querySelector('.balance-value');
+                balanceElement.classList.add('highlight-balance');
+                setTimeout(() => {
+                    balanceElement.classList.remove('highlight-balance');
+                }, 3000);
+                
+                // Mark task as completed in timer storage
+                if (window.taskTimers[taskId]) {
+                    window.taskTimers[taskId].running = false;
+                    window.taskTimers[taskId].completed = true;
+                    saveTimerState();
+                }
+                
+                // Show success message
+                showNotification(
+                    'Game Completed!', 
+                    `You've successfully played "${gameTitle}" and earned ${pointsEarned} points! Your new balance is ${users[userIndex].balance} points.`, 
+                    'success', 
+                    8000
+                );
+                
+                // Also show alert for good measure
+                alert(`Congratulations! You've completed playing "${gameTitle}" and earned ${pointsEarned} points!`);
+            } catch (err) {
+                console.error('Error in completeGame:', err);
+                alert('Something went wrong. Please try again.');
+            }
+        }
+        
+        function calculateUserBalance(user) {
+            // 10 points for each basic task
+            let points = 0;
+            if (user.tasksDone.follow) points += 10;
+            if (user.tasksDone.group) points += 10;
+            if (user.tasksDone.sub) points += 10;
+            
+            // 10 points for each completed game
+            if (user.tasksDone.games) {
+                for (let i = 0; i < user.tasksDone.games.length; i++) {
+                    if (user.tasksDone.games[i]) points += 10;
+                }
+            }
+            
+            user.balance = points;
+        }
+        
+        // Function to periodically save all timer states
+        function saveAllTimerStates() {
+            if (window.taskTimers && Object.keys(window.taskTimers).length > 0) {
+                console.log('Auto-saving all timer states...');
+                saveTimerState();
+            }
+        }
+        
+        // Saves timer state to localStorage
+        function saveTimerState() {
+            try {
+                const robloxName = localStorage.getItem('robloxName') || 
+                                  sessionStorage.getItem('robloxName') || 
+                                  window.currentUser;
+                                  
+                if (robloxName) {
+                    localStorage.setItem('taskTimers_' + robloxName, JSON.stringify(window.taskTimers));
+                }
+            } catch (e) {
+                console.error('Error saving timer state:', e);
+            }
+        }
+        
+        // Formats seconds into MM:SS display
+        function formatTime(seconds) {
+            if (seconds >= 3600) {
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor((seconds % 3600) / 60);
+                const remainingSeconds = seconds % 60;
+                return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+            } else {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+            }
+        }
+        
+        // Start a timer for a social task (follow, group, sub)
+        function startTaskTimer(taskId, duration, isRestored = false) {
+            console.log('Starting social task timer for', taskId, 'with duration', duration);
+            
+            // Get the timer elements
+            const timerElement = document.getElementById(taskId + 'Timer');
+            
+            if (!timerElement) {
+                console.error('Could not find timer element for', taskId);
+                return;
+            }
+            
+            const timeValueElement = timerElement.querySelector('.time-value');
+            const buttonElement = document.getElementById(taskId + 'Button');
+            
+            if (!timeValueElement) {
+                console.error('Could not find time value element for', taskId);
+                return;
+            }
+            
+            if (!buttonElement) {
+                console.error('Could not find button element for', taskId);
+                return;
+            }
+            
+            // Open appropriate Roblox URL in a new tab based on task type
+            // but only do this if this is not a restored timer session
+            if (!isRestored) {
+                let robloxUrl = '';
+                let taskInstructions = '';
+                
+                if (taskId === 'follow') {
+                    robloxUrl = 'https://www.roblox.com/users/' + ROBLOX_PROFILE_ID + '/profile';
+                    taskInstructions = 'Please follow the Roblox profile that will open in a new tab.\n\nAfter following, KEEP THIS TAB OPEN for 3 minutes to receive your points!';
+                } else if (taskId === 'group') {
+                    robloxUrl = 'https://www.roblox.com/groups/' + ROBLOX_GROUP_ID + '/Group';
+                    taskInstructions = 'Please join the Roblox group that will open in a new tab.\n\nAfter joining, KEEP THIS TAB OPEN for 3 minutes to receive your points!';
+                } else if (taskId === 'sub') {
+                    robloxUrl = 'https://www.youtube.com/@' + YOUTUBE_CHANNEL;
+                    taskInstructions = 'Please subscribe to the YouTube channel that will open in a new tab.\n\nAfter subscribing, KEEP THIS TAB OPEN for 3 minutes to receive your points!';
+                }
+                
+                // Show instructions and confirm
+                if (confirm(taskInstructions)) {
+                    if (robloxUrl) {
+                        const newWindow = window.open(robloxUrl, '_blank');
+                        if (!newWindow) {
+                            alert('Please allow popups to complete this task. You need to visit the link to follow/join.');
+                            return;
+                        } else {
+                            console.log('Opened URL in new tab:', robloxUrl);
+                        }
+                    }
+                } else {
+                    // User canceled the task
+                    return;
+                }
+            }
+            
+            // Show timer, hide button
+            timerElement.style.display = 'block';
+            timerElement.classList.add('running');
+            buttonElement.textContent = 'In Progress...';
+            buttonElement.disabled = true;
+            buttonElement.style.display = 'none';
+            
+            // Add a note about keeping the tab open
+            let keepOpenNote = timerElement.querySelector('.keep-open-note');
+            if (!keepOpenNote) {
+                keepOpenNote = document.createElement('div');
+                keepOpenNote.className = 'keep-open-note';
+                timerElement.appendChild(keepOpenNote);
+            }
+            keepOpenNote.textContent = '⚠️ Keep this tab open while completing the task';
+            
+            // Initialize timer data
+            const startTime = Date.now();
+            const endTime = startTime + (duration * 1000);
+            
+            window.taskTimers[taskId] = {
+                running: true,
+                endTime: endTime,
+                startTime: startTime,
+                originalDuration: duration,
+                completed: false
+            };
+            saveTimerState();
+            
+            // Start countdown
+            let timeLeft = duration;
+            timeValueElement.textContent = formatTime(timeLeft);
+            
+            const timerId = setInterval(function() {
+                // Only count down if tab is visible
+                if (document.visibilityState === 'visible') {
+                    timeLeft--;
+                    
+                    if (timeLeft <= 0) {
+                        // Timer completed
+                        clearInterval(timerId);
+                        completeTask(taskId);
+                        return;
+                    }
+                    
+                    timeValueElement.textContent = formatTime(timeLeft);
+                }
+            }, 1000);
+            
+            // Store the timer ID so we can cancel if needed
+            window.taskTimers[taskId].timerId = timerId;
+        }
+        
+        // Show a paused task timer without starting it
+        function showPausedTaskTimer(taskId, timeLeft) {
+            const timerElement = document.getElementById(taskId + 'Timer');
+            const buttonElement = document.getElementById(taskId + 'Button');
+            
+            if (!timerElement || !buttonElement) {
+                console.error('Could not find timer elements for', taskId);
+                return;
+            }
+            
+            // Configure timer display
+            timerElement.style.display = 'block';
+            timerElement.className = 'timer-display';
+            
+            // Set the time value
+            const timeValueElement = timerElement.querySelector('.time-value');
+            if (timeValueElement) {
+                timeValueElement.textContent = formatTime(timeLeft);
+            }
+            
+            // Configure button
+            buttonElement.textContent = 'Paused';
+            buttonElement.disabled = true;
+            buttonElement.style.display = 'block';
+        }
+        
+        // Start a timer for a game task
+        function startGameTimer(gameIndex, duration = 60 * 60, isRestored = false) {
+            const taskId = 'game' + (gameIndex + 1);
+            console.log('Starting game timer for', taskId, 'with duration', duration);
+            
+            // Check if any other game timer is running
+            for (const timerId in window.taskTimers) {
+                if (timerId.startsWith('game') && 
+                    timerId !== taskId && 
+                    window.taskTimers[timerId].running && 
+                    window.taskTimers[timerId].endTime > Date.now()) {
+                    
+                    // Get the running game's title
+                    const runningGameTitle = window.taskTimers[timerId].gameTitle || 
+                        document.querySelector(`#${timerId}Task .task-info h3`).textContent;
+                    
+                    showNotification(
+                        'Game Already Running',
+                        `Please complete "${runningGameTitle}" first before starting another game.`,
+                        'warning',
+                        5000
+                    );
+                    return;
+                }
+            }
+            
+            // Get the timer elements
+            const timerElement = document.getElementById(taskId + 'Timer');
+            
+            if (!timerElement) {
+                console.error('Could not find timer element for', taskId);
+                return;
+            }
+            
+            const timeValueElement = timerElement.querySelector('.time-value');
+            const buttonElement = document.getElementById(taskId + 'Button');
+            const gameTitle = document.querySelector(`#game${gameIndex + 1}Task .task-info h3`).textContent;
+            
+            if (!timeValueElement) {
+                console.error('Could not find time value element for', taskId);
+                return;
+            }
+            
+            if (!buttonElement) {
+                console.error('Could not find button element for', taskId);
+                return;
+            }
+            
+            // If not restored, show instructions and confirmation
+            if (!isRestored) {
+                const gameInstructions = `You are about to start playing "${gameTitle}".\n\n` +
+                                       `The game will open in a new tab. You need to:\n` +
+                                       `1. Play the game for ${Math.floor(duration/60)} minutes\n` +
+                                       `2. KEEP THIS TAB OPEN while you play\n` +
+                                       `3. Check back occasionally to see your progress\n\n` +
+                                       `You'll earn 10 points when the timer completes!\n\n` +
+                                       `Note: You can only play one game at a time.\n\n` +
+                                       `Start playing now?`;
+                                       
+                if (!confirm(gameInstructions)) {
+                    return; // User canceled
+                }
+            }
+            
+            // Show timer, hide button
+            timerElement.style.display = 'block';
+            timerElement.classList.add('running');
+            buttonElement.textContent = 'Playing Game...';
+            buttonElement.disabled = true;
+            buttonElement.style.display = 'none';
+            
+            // Add a note about keeping the game open
+            let keepOpenNote = timerElement.querySelector('.keep-open-note');
+            if (!keepOpenNote) {
+                keepOpenNote = document.createElement('div');
+                keepOpenNote.className = 'keep-open-note';
+                timerElement.appendChild(keepOpenNote);
+            }
+            keepOpenNote.textContent = '⚠️ Keep this tab open to earn reward';
+            
+            // Initialize timer data
+            const startTime = Date.now();
+            const endTime = startTime + (duration * 1000);
+            
+            window.taskTimers[taskId] = {
+                running: true,
+                endTime: endTime,
+                startTime: startTime,
+                originalDuration: duration,
+                completed: false,
+                gameTitle: gameTitle
+            };
+            saveTimerState();
+            
+            // Update active games status
+            updateActiveGamesStatusFromTimers();
+            
+            // Start countdown
+            let timeLeft = duration;
+            timeValueElement.textContent = formatTime(timeLeft);
+            
+            const timerId = setInterval(function() {
+                // Only count down if tab is visible
+                if (document.visibilityState === 'visible') {
+                    timeLeft--;
+                    
+                    if (timeLeft <= 0) {
+                        // Timer completed
+                        clearInterval(timerId);
+                        completeGame(gameIndex);
+                        
+                        // Update active games status
+                        updateActiveGamesStatusFromTimers();
+                        return;
+                    }
+                    
+                    timeValueElement.textContent = formatTime(timeLeft);
+                    
+                    // Save timer state every minute
+                    if (timeLeft % 60 === 0) {
+                        saveTimerState();
+                        
+                        // Update active games status every 5 minutes
+                        if (timeLeft % 300 === 0) {
+                            updateActiveGamesStatusFromTimers();
+                        }
+                    }
+                }
+            }, 1000);
+            
+            // Store the timer ID so we can cancel if needed
+            window.taskTimers[taskId].timerId = timerId;
+            
+            // Show a notification to the user
+            if (!isRestored) {
+                alert(`Game timer started! Keep this tab open for ${Math.floor(duration/60)} minutes to receive your reward. Timer only counts down when this tab is visible.`);
+            }
+        }
+        
+        // Show a timer with the current time remaining
+        function showGameTimer(gameIndex, timeLeft) {
+            const taskId = 'game' + (gameIndex + 1);
+            const timerElement = document.getElementById(taskId + 'Timer');
+            const buttonElement = document.getElementById(taskId + 'Button');
+            const gameTitle = document.querySelector(`#game${gameIndex + 1}Task .task-info h3`).textContent;
+            
+            if (!timerElement || !buttonElement) {
+                console.error('Could not find timer elements for', taskId);
+                return;
+            }
+            
+            // Configure timer display
+            timerElement.style.display = 'block';
+            timerElement.className = 'timer-display';
+            
+            // Set the time value
+            const timeValueElement = timerElement.querySelector('.time-value');
+            if (timeValueElement) {
+                timeValueElement.textContent = formatTime(timeLeft);
+            }
+            
+            // Configure button
+            buttonElement.textContent = 'In Progress';
+            buttonElement.disabled = true;
+            buttonElement.style.display = 'block';
+            
+            // Add a note about keeping the tab open
+            let keepOpenNote = timerElement.querySelector('.keep-open-note');
+            if (!keepOpenNote) {
+                keepOpenNote = document.createElement('div');
+                keepOpenNote.className = 'keep-open-note';
+                timerElement.appendChild(keepOpenNote);
+            }
+            keepOpenNote.textContent = '⚠️ Keep this tab open to earn reward';
+        }
+        
+        // Update active games status based on current timers
+        function updateActiveGamesStatusFromTimers() {
+            const activeGames = [];
+            
+            // Find all active game timers
+            for (const taskId in window.taskTimers) {
+                if (taskId.startsWith('game') && 
+                    window.taskTimers[taskId].running && 
+                    window.taskTimers[taskId].endTime > Date.now()) {
+                    
+                    const gameIndex = parseInt(taskId.replace('game', '')) - 1;
+                    const timeLeft = Math.ceil((window.taskTimers[taskId].endTime - Date.now()) / 1000);
+                    
+                    // Get game title - either from the timer object or from DOM if not available
+                    let gameTitle = window.taskTimers[taskId].gameTitle;
+                    if (!gameTitle) {
+                        const titleElement = document.querySelector(`#game${gameIndex + 1}Task .task-info h3`);
+                        gameTitle = titleElement ? titleElement.textContent : `Game ${gameIndex + 1}`;
+                    }
+                    
+                    activeGames.push({
+                        name: gameTitle,
+                        timeLeft: timeLeft
+                    });
+                }
+            }
+            
+            updateActiveGamesStatus(activeGames);
+        }
+        
+        // Notification system functions
+        function showNotification(title, message, type = 'info', duration = 5000) {
+            const container = document.getElementById('notificationContainer');
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            // Add icon based on type
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'warning') icon = 'exclamation-triangle';
+            if (type === 'error') icon = 'times-circle';
+            
+            // Set notification content
+            notification.innerHTML = `
+                <div class="notification-title">
+                    <i class="fas fa-${icon}"></i> ${title}
+                </div>
+                <div class="notification-content">${message}</div>
+                <div class="notification-close"><i class="fas fa-times"></i></div>
+            `;
+            
+            // Add to container
+            container.appendChild(notification);
+            
+            // Add event listener to close button
+            const closeBtn = notification.querySelector('.notification-close');
+            closeBtn.addEventListener('click', function() {
+                notification.style.animation = 'slideOut 0.3s forwards';
+                setTimeout(() => {
+                    container.removeChild(notification);
+                }, 300);
+            });
+            
+            // Auto-remove after duration
+            if (duration > 0) {
+                setTimeout(() => {
+                    if (notification.parentNode === container) {
+                        notification.style.animation = 'slideOut 0.3s forwards';
+                        setTimeout(() => {
+                            if (notification.parentNode === container) {
+                                container.removeChild(notification);
+                            }
+                        }, 300);
+                    }
+                }, duration);
+            }
+            
+            return notification;
+        }
+        
+        // Update the active games status bar
+        function updateActiveGamesStatus(activeGames) {
+            const statusBar = document.getElementById('activeGamesStatus');
+            const gamesList = document.getElementById('activeGamesList');
+            
+            if (activeGames.length === 0) {
+                statusBar.classList.remove('visible');
+                return;
+            }
+            
+            // Clear existing items
+            gamesList.innerHTML = '';
+            
+            // Add each active game
+            activeGames.forEach(game => {
+                const timeFormatted = formatTime(game.timeLeft);
+                const gameItem = document.createElement('div');
+                gameItem.className = 'active-game-item';
+                
+                const gameIcon = '<i class="fas fa-play-circle"></i>';
+                
+                const statusBadge = '<span class="game-status running">Running</span>';
+                
+                gameItem.innerHTML = `
+                    <div class="game-icon">${gameIcon}</div>
+                    <div class="game-details">
+                        <div class="game-name">${game.name}</div>
+                        <div class="game-time">${timeFormatted} remaining ${statusBadge}</div>
+                        <div class="game-note" style="font-size: 12px; color: #FF9800; margin-top: 5px;">
+                            <i class="fas fa-info-circle"></i> Complete this game before starting another
+                        </div>
+                    </div>
+                `;
+                
+                gamesList.appendChild(gameItem);
+            });
+            
+            // Make the status bar visible
+            statusBar.classList.add('visible');
+        }
+
+        // Function to handle timer restoration on page load
+        function restoreTimers() {
+            try {
+                const robloxName = localStorage.getItem('robloxName') || 
+                                  sessionStorage.getItem('robloxName') || 
+                                  window.currentUser;
+                
+                if (!robloxName) {
+                    console.log('No user to restore timers for');
+                    return;
+                }
+                
+                let timersJson;
+                
+                try {
+                    timersJson = localStorage.getItem('taskTimers_' + robloxName);
+                } catch (e) {
+                    console.error('Error getting timers from localStorage:', e);
+                }
+                
+                if (!timersJson) {
+                    console.log('No saved timers found');
+                    return;
+                }
+                
+                // Parse saved timers
+                const timers = JSON.parse(timersJson);
+                const now = Date.now();
+                const activeGames = [];
+                
+                if (!timers || Object.keys(timers).length === 0) {
+                    console.log('No active timers to restore');
+                    return;
+                }
+                
+                console.log('Restoring timers:', timers);
+                
+                // Restore each timer
+                for (const taskId in timers) {
+                    const timer = timers[taskId];
+                    
+                    if (timer.completed) {
+                        // Skip completed timers
+                        console.log('Timer already completed:', taskId);
+                        continue;
+                    }
+                    
+                    // Check if the timer should be restored
+                    const timeLeftMs = timer.endTime - now;
+                    const timeLeftSeconds = Math.max(0, Math.floor(timeLeftMs / 1000));
+                    
+                    console.log(`Timer ${taskId}: ${timeLeftSeconds}s remaining`);
+                    
+                    if (timeLeftSeconds > 0 && timer.running) {
+                        // This is an active timer with time remaining
+                        if (taskId.startsWith('game')) {
+                            const gameIndex = parseInt(taskId.replace('game', '')) - 1;
+                            console.log('Restoring game timer:', taskId, gameIndex);
+                            
+                            // Add to active games for status bar
+                            const gameTitle = timer.gameTitle || `Game ${gameIndex + 1}`;
+                            activeGames.push({
+                                name: gameTitle,
+                                timeLeft: timeLeftSeconds
+                            });
+                            
+                            // Start the timer with remaining time
+                            startGameTimer(gameIndex, timeLeftSeconds, true);
+                        } else {
+                            // Restore social task timer
+                            startTaskTimer(taskId, timeLeftSeconds, true);
+                        }
+                    } else if (timer.completed) {
+                        // This task was already completed
+                        if (taskId.startsWith('game')) {
+                            const gameIndex = parseInt(taskId.replace('game', '')) - 1;
+                            completeGame(gameIndex, true);
+                        } else {
+                            completeTask(taskId, true);
+                        }
+                    }
+                }
+                
+                // Save the updated timer state
+                window.taskTimers = timers;
+                saveTimerState();
+                
+                // If there are active game timers, show the active games status bar
+                if (activeGames.length > 0) {
+                    updateActiveGamesStatus(activeGames);
+                }
+            } catch (e) {
+                console.error('Error restoring timers:', e);
+            }
+        }
+
+        // Admin function to fix withdrawal requests
+        function fixWithdrawalRequests() {
+            try {
+                console.log('Fixing withdrawal requests...');
+                
+                // Get current withdrawal requests
+                let withdrawalRequests = [];
+                
+                try {
+                    const raw = localStorage.getItem('withdrawalRequests');
+                    console.log('Raw withdrawal data:', raw);
+                    
+                    if (raw && raw !== 'undefined' && raw !== 'null') {
+                        const parsed = JSON.parse(raw);
+                        if (Array.isArray(parsed)) {
+                            withdrawalRequests = parsed;
+                            console.log('Successfully parsed withdrawal requests:', withdrawalRequests);
+                        } else {
+                            console.warn('Withdrawal requests is not an array, resetting');
+                            withdrawalRequests = [];
+                        }
+                    } else {
+                        console.warn('No withdrawal data found, creating empty array');
+                        withdrawalRequests = [];
+                    }
+                } catch (e) {
+                    console.error('Error parsing withdrawal requests:', e);
+                    withdrawalRequests = [];
+                }
+                
+                // Fix any missing fields
+                withdrawalRequests = withdrawalRequests.map((request, index) => {
+                    if (!request.id) {
+                        request.id = Date.now() + index;
+                        console.log('Added missing ID to request:', request);
+                    }
+                    
+                    if (!request.status) {
+                        request.status = 'pending';
+                        console.log('Added missing status to request:', request);
+                    }
+                    
+                    return request;
+                });
+                
+                // Save back to localStorage
+                localStorage.setItem('withdrawalRequests', JSON.stringify(withdrawalRequests));
+                console.log('Fixed withdrawal requests saved:', withdrawalRequests);
+                
+                showNotification('Success', `Fixed ${withdrawalRequests.length} withdrawal requests`, 'success');
+            } catch (e) {
+                console.error('Error fixing withdrawal requests:', e);
+                showNotification('Error', 'Failed to fix withdrawal requests: ' + e.message, 'error');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is admin and show dashboard link with animation
+            const robloxName = localStorage.getItem('robloxName') || sessionStorage.getItem('robloxName');
+            const adminDashboard = document.getElementById('adminDashboard');
+            
+            if (robloxName === '24k_Ake' && adminDashboard) {
+                adminDashboard.style.display = 'flex';
+                // Add a subtle entrance animation
+                adminDashboard.style.animation = 'fadeInScale 0.5s ease-out';
+            }
+        });
+        
+        // Add the fadeInScale animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInScale {
+                from {
+                    opacity: 0;
+                    transform: scale(0.95);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
+    <script>
+      // Add this to your existing DOMContentLoaded event listener
+      document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.getElementById('mobileMenuToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuToggle.addEventListener('click', function() {
+          navMenu.classList.toggle('active');
+          
+          // Toggle between hamburger and close icon
+          const icon = this.querySelector('i');
+          if (navMenu.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+          } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+        });
+
+        // Close menu when clicking a link
+        const navLinks = document.querySelectorAll('.nav-item');
+        navLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          });
+        });
+      });
+    </script>
+</body>
+</html> 
